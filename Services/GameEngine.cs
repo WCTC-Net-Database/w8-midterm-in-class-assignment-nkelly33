@@ -41,10 +41,24 @@ public class GameEngine
         // TODO e.g. "Which monster would you like to attack?"
         // TODO Right now it just attacks the first monster in the room.
         // TODO It is ok to leave this functionality if there is only one monster in the room.
-        var target = _player.CurrentRoom.Characters.FirstOrDefault(c => c != _player);
-        if (target != null)
+        var targetlist = _player.CurrentRoom.Characters.Where(c => c != _player).ToList();
+        
+        if (targetlist != null)
         {
+            for (int i = 0; i < targetlist.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {targetlist[i].Name}");
+                
+            }
+            Console.WriteLine("");
+            Console.Write("Select a target: ");
+            Console.WriteLine("");
+            var input = Console.ReadLine();
+            var target = targetlist[int.Parse(input) - 1];
             _player.Attack(target);
+            
+            _player.CurrentRoom.RemoveCharacter(target);
+            
         }
         else
         {
@@ -125,11 +139,18 @@ public class GameEngine
     {
         _goblin = _context.Characters.OfType<Goblin>().FirstOrDefault();
 
+
         var random = new Random();
         var randomRoom = _rooms[random.Next(_rooms.Count)];
         randomRoom.AddCharacter(_goblin); // Use helper method
 
         // TODO Load your two new monsters here into the same room
+        random = new Random();
+        randomRoom = _rooms[random.Next(_rooms.Count)];
+        var dragon = _context.Characters.OfType<Dragon>().FirstOrDefault();
+        var bunny = _context.Characters.OfType<Bunny>().FirstOrDefault();
+        randomRoom.AddCharacter(dragon);
+        randomRoom.AddCharacter(bunny);
     }
 
     private void SetupGame()
@@ -159,6 +180,8 @@ public class GameEngine
         var library = _roomFactory.CreateRoom("library", _outputManager);
         var armory = _roomFactory.CreateRoom("armory", _outputManager);
         var garden = _roomFactory.CreateRoom("garden", _outputManager);
+        var bossRoom = _roomFactory.CreateRoom("boss", _outputManager);
+        var potatoRoom = _roomFactory.CreateRoom("potato", _outputManager);
 
         entrance.North = treasureRoom;
         entrance.West = library;
@@ -166,6 +189,7 @@ public class GameEngine
 
         treasureRoom.South = entrance;
         treasureRoom.West = dungeonRoom;
+        treasureRoom.East = bossRoom;
 
         dungeonRoom.East = treasureRoom;
 
@@ -176,8 +200,13 @@ public class GameEngine
 
         garden.West = entrance;
 
+        bossRoom.West = treasureRoom;
+        bossRoom.North = potatoRoom;
+
+        potatoRoom.South = bossRoom;
+
         // Store rooms in a list for later use
-        _rooms = new List<IRoom> { entrance, treasureRoom, dungeonRoom, library, armory, garden };
+        _rooms = new List<IRoom> { entrance, treasureRoom, dungeonRoom, library, armory, garden, bossRoom, potatoRoom };
 
         return entrance;
     }

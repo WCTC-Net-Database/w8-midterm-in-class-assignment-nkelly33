@@ -47,5 +47,21 @@
     "Level": 2,
     "HP": 8,
     "Treasure": null
+  },
+  {
+    "$type": "Dragon",
+    "Name": "Flyfly",
+    "Type": "Dragon",
+    "Level": 9,
+    "HP": 8,
+    "Treasure": "dragon scale"
+  },
+  {
+    "$type": "Bunny",
+    "Name": "Evil Bunny",
+    "Type": "Bunny",
+    "Level": 87,
+    "HP": 35,
+    "Treasure": "lots of carrots and money"
   }
 ]

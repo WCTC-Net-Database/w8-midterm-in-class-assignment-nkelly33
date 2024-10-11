@@ -22,6 +22,10 @@ public class RoomFactory : IRoomFactory
                 return new Room("Armory", "Weapons and armor line the walls.", outputManager);
             case "garden":
                 return new Room("Garden", "A peaceful garden with blooming flowers.", outputManager);
+            case "boss":
+                return new Room("Boss Room", "A large room with a fearsome boss.", outputManager);
+            case "potato":
+                return new Room("Potato Room", "A room filled with potatoes.", outputManager);
             default:
                 return new Room("Generic Room", "A simple room.", outputManager);
         }
