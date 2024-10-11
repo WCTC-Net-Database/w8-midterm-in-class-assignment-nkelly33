@@ -41,6 +41,8 @@ public class GameEngine
         // TODO e.g. "Which monster would you like to attack?"
         // TODO Right now it just attacks the first monster in the room.
         // TODO It is ok to leave this functionality if there is only one monster in the room.
+
+        // changed the target to a list instead of one monster
         var targetlist = _player.CurrentRoom.Characters.Where(c => c != _player).ToList();
         
         if (targetlist != null)
